@@ -12,6 +12,7 @@
 		CB72A08A2CCCE58A00DA5F4E /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = CB72A0892CCCE58A00DA5F4E /* RxRelay */; };
 		CB72A08D2CCCE59A00DA5F4E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CB72A08C2CCCE59A00DA5F4E /* Kingfisher */; };
 		CB72A0902CCCE5BD00DA5F4E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CB72A08F2CCCE5BD00DA5F4E /* Alamofire */; };
+		CB72A0AA2CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB72A0A82CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB72A0A92CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CleanArchitectureProject.xcdatamodel; sourceTree = "<group>"; };
 		CBD9E0952CCB992B0017DA7B /* CleanArchitectureProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanArchitectureProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD9E0AB2CCB992D0017DA7B /* CleanArchitectureProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleanArchitectureProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD9E0B52CCB992D0017DA7B /* CleanArchitectureProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleanArchitectureProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +103,7 @@
 		CBD9E08C2CCB992B0017DA7B = {
 			isa = PBXGroup;
 			children = (
+				CB72A0A82CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodeld */,
 				CBD9E0972CCB992B0017DA7B /* CleanArchitectureProject */,
 				CBD9E0AE2CCB992D0017DA7B /* CleanArchitectureProjectTests */,
 				CBD9E0B82CCB992D0017DA7B /* CleanArchitectureProjectUITests */,
@@ -273,6 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB72A0AA2CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +660,19 @@
 			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		CB72A0A82CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CB72A0A92CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodel */,
+			);
+			currentVersion = CB72A0A92CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodel */;
+			path = CleanArchitectureProject.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = CBD9E08D2CCB992B0017DA7B /* Project object */;
 }

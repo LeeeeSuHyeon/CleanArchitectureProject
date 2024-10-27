@@ -29,19 +29,25 @@ public struct UserListResult : Decodable {
 public struct UserListItem : Decodable{
     let id : Int
     let login : String
-    let imageUrl : String
+    let imageURL : String
     
     enum CodingKeys: String, CodingKey {
         case id
         case login
-        case imageUrl = "avatar_url"
+        case imageURL = "avatar_url"
     }
     
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
         self.login = try container.decode(String.self, forKey: .login)
-        self.imageUrl = try container.decode(String.self, forKey: .imageUrl)
+        self.imageURL = try container.decode(String.self, forKey: .imageURL)
+    }
+    
+    public init(id : Int, login : String, imageURL : String) {
+        self.id = id
+        self.login = login
+        self.imageURL = imageURL
     }
 }
 
