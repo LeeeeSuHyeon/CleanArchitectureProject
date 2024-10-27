@@ -6,8 +6,12 @@
 //
 
 
+public protocol UserNetworkProtocol {
+    func fetchUser(query: String, page: Int) async -> Result<UserListResult, NetworkError>
+}
 
-final class UserNetwork {
+
+final class UserNetwork : UserNetworkProtocol{
     private let manage : NetworkManagerProtocol
     
     init(manage: NetworkManagerProtocol) {

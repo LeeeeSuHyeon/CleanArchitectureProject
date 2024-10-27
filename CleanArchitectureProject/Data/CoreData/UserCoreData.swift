@@ -72,6 +72,4 @@ public struct UserCoreData : UserCoreDataProtocol {
             return .failure(.deleteError(error.localizedDescription))
         }
     }
-    
-    
 }
