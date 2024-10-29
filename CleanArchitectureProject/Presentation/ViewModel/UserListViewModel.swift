@@ -52,8 +52,15 @@ public class UserListViewModel : UserListViewModelProtocol {
     
     // VC에서 이벤트가 전달되면 VM 데이터로 반환해주는 역할
     public func transform(input : Input) -> Output {
-        input.query.bind { query in // 텍스트 필드로 들어온 query 값을 받아서 사용
-            //TODO: 상황에 맞춰서 User Fetch OR Get Favorite User
+        input.query.bind {[weak self] query in // 텍스트 필드로 들어온 query 값을 받아서 사용
+            //TODO:  User Fetch AND Get Favorite User
+            
+            guard let isValidate = self?.validateQuery(query: query), isValidate else {
+                self?.getFavoriteUsers(query: "")
+                return
+            }
+            self?.fetchUser(query: query, page : 0)
+            self?.getFavoriteUsers(query: query)
         }.disposed(by: disposeBag)
         
         input.saveFavorite.bind { user in
@@ -76,6 +83,54 @@ public class UserListViewModel : UserListViewModelProtocol {
             return cellData
         }
         return Output(cellData: cellData, error: error.asObservable())
+    }
+    
+    private func fetchUser(query : String, page : Int) {
+        guard let urlAllowedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {return}
+        
+        Task{
+            let result = await usecase.fetchUser(query: query, page: page)
+            switch result {
+            case .success(let users) :
+                if page == 0 {
+                    fetchUserList.accept(users.items)
+                } else {
+                    fetchUserList.accept(fetchUserList.value + users.items)
+                }
+                
+            case .failure(let error) :
+                self.error.accept(error.description)
+            }
+        }
+    }
+    
+    private func getFavoriteUsers(query : String) {
+        let result = usecase.getFavoriteUsers()
+        switch result {
+        case .success(let users):
+            // 검색어가 없 을 때
+            if query.isEmpty {
+                favoriteUserList.accept(users)
+            }else { //
+                let filteredUsers = users.filter { user in
+                    user.login.contains(query)
+                }
+                favoriteUserList.accept(filteredUsers)
+            }
+            allFavoriteUserList.accept(users)
+        case .failure(let error):
+            self.error.accept(error.description)
+        }
+    }
+    
+    // 쿼리 유효성 검사
+    private func validateQuery(query : String) -> Bool {
+        // 추가로 특수문자 입력이나 이런 거 추가하면 좋을듯
+        if query.isEmpty {
+            return false
+        } else {
+            return true
+        }
     }
 }
 
