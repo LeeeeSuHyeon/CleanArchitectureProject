@@ -26,6 +26,7 @@ public class UserListViewModel : UserListViewModelProtocol {
     private let fetchUserList = BehaviorRelay<[UserListItem]>(value: []) // API 통해서 받아오는 유저 리스트
     private let allFavoriteUserList = BehaviorRelay<[UserListItem]>(value: []) // 즐겨찾기 포함 여부를 확인할 전체 즐겨찾기 리스트
     private let favoriteUserList = BehaviorRelay<[UserListItem]>(value: []) // 즐겨찾기 목록에 보여줄 리스트
+    private var page = 0
     
     init(usecase: UserListUsecaseProtocol) {
         self.usecase = usecase
@@ -55,12 +56,13 @@ public class UserListViewModel : UserListViewModelProtocol {
         input.query.bind {[weak self] query in // 텍스트 필드로 들어온 query 값을 받아서 사용
             //TODO:  User Fetch AND Get Favorite User
             
-            guard let isValidate = self?.validateQuery(query: query), isValidate else {
+            guard let self = self, validateQuery(query: query)else {
                 self?.getFavoriteUsers(query: "")
                 return
             }
-            self?.fetchUser(query: query, page : 0)
-            self?.getFavoriteUsers(query: query)
+            page = 1
+            fetchUser(query: query, page : page)
+            getFavoriteUsers(query: query)
         }.disposed(by: disposeBag)
         
         input.saveFavorite
@@ -77,13 +79,19 @@ public class UserListViewModel : UserListViewModelProtocol {
             .withLatestFrom(input.query, resultSelector: { ($0, $1)})
             .bind {[weak self] userId, query in
                 
-                 //TODO: 즐겨찾기 삭제    
+                 //TODO: 즐겨찾기 삭제
                 self?.deleteFavoriteUsers(userId : userId, query : query)
             
         }.disposed(by: disposeBag)
         
-        input.fetchMore.bind {
+        input.fetchMore
+            .withLatestFrom(input.query)
+            .bind {[weak self] query in
             //TODO: 다음 페이지 검색
+                guard let self = self else {return}
+                page += 1
+                fetchUser(query: query, page: page)
+                
         }.disposed(by: disposeBag)
         
         // 탭이 눌렸을 때, API 리스트를 가져올 건지, 즐겨찾기 유저를 가져올건지 탭이 결정함
