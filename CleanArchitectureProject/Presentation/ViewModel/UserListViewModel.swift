@@ -96,9 +96,28 @@ public class UserListViewModel : UserListViewModelProtocol {
         
         // 탭이 눌렸을 때, API 리스트를 가져올 건지, 즐겨찾기 유저를 가져올건지 탭이 결정함
         // bind 대신 map을 사용하는 이유 : cellData(Observable<[UserListCellData]>)로 반환되어야 되기 때문
-        let cellData = Observable.combineLatest(input.tabButtonType, fetchUserList, favoriteUserList).map { tabButtonType, fetchUserList, favoriteUserList in
-            let cellData : [UserListCellData] = []
+        let cellData : Observable<[UserListCellData]> = Observable.combineLatest(input.tabButtonType, fetchUserList, favoriteUserList, allFavoriteUserList).map { [weak self] tabButtonType, fetchUserList, favoriteUserList, allFavoriteUserList in
             //TODO: cellData 생성
+            var cellData : [UserListCellData] = []
+            guard let self = self else {return cellData}
+            
+            switch tabButtonType {
+            case .api :
+                let tuple = usecase.checkFavoriteState(fetchUsers: fetchUserList, favoriteUsers: allFavoriteUserList)
+                let result = tuple.map { user, isFavorite in
+                    UserListCellData.user(user: user, isFavorite: isFavorite)
+                }
+                return result
+            case .favorite:
+                let dic = usecase.convertListToDictionary(favoriteUsers: favoriteUserList)
+                let keys = dic.keys.sorted()
+                keys.forEach { key in
+                    cellData.append(.header(key))
+                    if let users = dic[key] {
+                        cellData += users.map{UserListCellData.user(user: $0, isFavorite: true)}
+                    }
+                }
+            }
             return cellData
         }
         return Output(cellData: cellData, error: error.asObservable())
