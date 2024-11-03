@@ -11,7 +11,7 @@ import RxCocoa
 
 
 public protocol UserListViewModelProtocol {
-    
+    func transform(input : UserListViewModel.Input) -> UserListViewModel.Output
 }
 /*
  PublishRelay : 데이터를 VC에 전달하고자 하는 목적 (에러가 딱히 없음) - 초기값 필요 없음
