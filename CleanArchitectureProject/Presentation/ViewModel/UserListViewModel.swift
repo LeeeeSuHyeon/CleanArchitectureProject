@@ -194,9 +194,9 @@ public class UserListViewModel : UserListViewModelProtocol {
 }
 
 // API 탭과 즐겨찾기 목록을 보여줄 탭 타입
-public enum TabButtonType {
-    case api
-    case favorite
+public enum TabButtonType : String {
+    case api = "API"
+    case favorite = "Favorite"
 }
 
 
