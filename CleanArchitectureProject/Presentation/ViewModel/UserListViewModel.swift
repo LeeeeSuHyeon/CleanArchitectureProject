@@ -151,7 +151,7 @@ public class UserListViewModel : UserListViewModelProtocol {
                 favoriteUserList.accept(users)
             }else { //
                 let filteredUsers = users.filter { user in
-                    user.login.contains(query)
+                    user.login.contains(query.lowercased())
                 }
                 favoriteUserList.accept(filteredUsers)
             }
@@ -162,7 +162,7 @@ public class UserListViewModel : UserListViewModelProtocol {
     }
     
     
-    func saveFavoriteUsers(user : UserListItem, query : String) {
+    public func saveFavoriteUsers(user : UserListItem, query : String) {
         let result = usecase.saveFavoriteUsers(user: user)
         switch result {
         case .success(_):
@@ -172,7 +172,7 @@ public class UserListViewModel : UserListViewModelProtocol {
         }
     }
     
-    func deleteFavoriteUsers(userId : Int, query : String){
+    public func deleteFavoriteUsers(userId : Int, query : String){
         let result = usecase.deleteFavoriteUsers(userID: userId)
         switch result {
         case .success:

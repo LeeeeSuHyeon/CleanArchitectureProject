@@ -41,8 +41,8 @@ public struct UserCoreData : UserCoreDataProtocol {
     }
     
     public func saveFavoriteUsers(user: UserListItem) -> Result<Bool, CoreDataError> {
-        guard let entity = NSEntityDescription.entity(forEntityName: "CleanArchitectureProject", in: viewContext) else {
-            return .failure(.entityNotFound("CleanArchitectureProject"))
+        guard let entity = NSEntityDescription.entity(forEntityName: "FavoriteUser", in: viewContext) else {
+            return .failure(.entityNotFound("FavoriteUser"))
         }
         let userObject = NSManagedObject(entity: entity, insertInto: viewContext)
         userObject.setValue(user.id, forKey: "id")

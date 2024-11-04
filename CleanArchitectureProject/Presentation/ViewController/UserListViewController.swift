@@ -52,9 +52,17 @@ class UserListViewController: UIViewController {
         let query = txtSearch.rx.text.orEmpty.debounce(.milliseconds(300), scheduler: MainScheduler.instance)
         let output = viewModel.transform(input: UserListViewModel.Input(tabButtonType: tabButtonType, query: query, saveFavorite: saveFavorite.asObservable(), deleteFavorite: deleteFavorite.asObservable(), fetchMore: fetchMore.asObservable()))
         
-        output.cellData.bind(to: tableView.rx.items){ tableView, index, cellData in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.id) as? UserTableViewCell else {return UITableViewCell()}
+        output.cellData.bind(to: tableView.rx.items){[weak self] tableView, index, cellData in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.id) as? UserTableViewCell, case .user(let user, let favorite) = cellData else {return UITableViewCell()}
+            
             cell.apply(cellData: cellData)
+            cell.btnFavorite.rx.tap.bind {
+                if favorite {
+                    self?.deleteFavorite.accept(user.id)
+                } else {
+                    self?.saveFavorite.accept(user)
+                }
+            }.disposed(by: cell.disposeBag)
             return cell
             
         }.disposed(by: disposeBag)
