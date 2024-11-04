@@ -35,6 +35,7 @@ class UserListViewController: UIViewController {
     private lazy var tabButtonView = TabButtonView(tabList: [.api, .favorite])
     private lazy var tableView = UITableView().then { view in
         view.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.id)
+        view.register(UserHeaderTableViewCell.self, forCellReuseIdentifier: UserHeaderTableViewCell.id)
     }
     
     init(viewModel: UserListViewModelProtocol) {
@@ -53,16 +54,19 @@ class UserListViewController: UIViewController {
         let output = viewModel.transform(input: UserListViewModel.Input(tabButtonType: tabButtonType, query: query, saveFavorite: saveFavorite.asObservable(), deleteFavorite: deleteFavorite.asObservable(), fetchMore: fetchMore.asObservable()))
         
         output.cellData.bind(to: tableView.rx.items){[weak self] tableView, index, cellData in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.id) as? UserTableViewCell, case .user(let user, let favorite) = cellData else {return UITableViewCell()}
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellData.id) else {return UITableViewCell()}
+            (cell as? UserTableViewCellProtocol)?.apply(cellData: cellData)
             
-            cell.apply(cellData: cellData)
-            cell.btnFavorite.rx.tap.bind {
-                if favorite {
-                    self?.deleteFavorite.accept(user.id)
-                } else {
-                    self?.saveFavorite.accept(user)
-                }
-            }.disposed(by: cell.disposeBag)
+            if let cell = cell as? UserTableViewCell, case .user(let user, let favorite) = cellData {
+                cell.btnFavorite.rx.tap.bind {
+                    if favorite {
+                        self?.deleteFavorite.accept(user.id)
+                    } else {
+                        self?.saveFavorite.accept(user)
+                    }
+                }.disposed(by: cell.disposeBag)
+            }
+            
             return cell
             
         }.disposed(by: disposeBag)

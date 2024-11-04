@@ -130,7 +130,7 @@ public class UserListViewModel : UserListViewModelProtocol {
             let result = await usecase.fetchUser(query: urlAllowedQuery, page: page)
             switch result {
             case .success(let users) :
-                if page == 0 {
+                if page == 1 {
                     fetchUserList.accept(users.items)
                 } else {
                     fetchUserList.accept(fetchUserList.value + users.items)
@@ -203,4 +203,11 @@ public enum TabButtonType : String {
 public enum UserListCellData {
     case user(user: UserListItem, isFavorite : Bool)
     case header(String) // 초성
+    
+    var id : String {
+        switch self {
+        case .user: "UserTableViewCell"
+        case .header: "UserHeaderTableViewCell"
+        }
+    }
 }

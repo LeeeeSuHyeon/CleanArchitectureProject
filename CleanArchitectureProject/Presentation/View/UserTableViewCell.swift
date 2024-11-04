@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import RxSwift
 
-class UserTableViewCell : UITableViewCell {
+class UserTableViewCell : UITableViewCell, UserTableViewCellProtocol {
     static let id = "UserTableViewCell"
     public var disposeBag = DisposeBag()
     
@@ -44,7 +44,8 @@ class UserTableViewCell : UITableViewCell {
         
         userImageView.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview().inset(20)
-            make.width.height.equalTo(80)
+            make.width.equalTo(80)
+            make.height.equalTo(80).priority(.high)
         }
         
         lblUserName.snp.makeConstraints { make in
