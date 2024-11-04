@@ -146,7 +146,7 @@ public class UserListViewModel : UserListViewModelProtocol {
         let result = usecase.getFavoriteUsers()
         switch result {
         case .success(let users):
-            // 검색어가 없 을 때
+            // 검색어가 없을 때
             if query.isEmpty {
                 favoriteUserList.accept(users)
             }else { //
@@ -165,7 +165,7 @@ public class UserListViewModel : UserListViewModelProtocol {
     func saveFavoriteUsers(user : UserListItem, query : String) {
         let result = usecase.saveFavoriteUsers(user: user)
         switch result {
-        case .success(let success):
+        case .success(_):
             getFavoriteUsers(query: query)
         case .failure(let error):
             self.error.accept(error.description)

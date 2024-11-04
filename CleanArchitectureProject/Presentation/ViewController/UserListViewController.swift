@@ -33,7 +33,9 @@ class UserListViewController: UIViewController {
     }
     
     private lazy var tabButtonView = TabButtonView(tabList: [.api, .favorite])
-    private lazy var tableView = UITableView()
+    private lazy var tableView = UITableView().then { view in
+        view.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.id)
+    }
     
     init(viewModel: UserListViewModelProtocol) {
         self.viewModel = viewModel
@@ -48,17 +50,22 @@ class UserListViewController: UIViewController {
     private func bindViewModel() {
         let tabButtonType = tabButtonView.selectedType.compactMap{$0}
         let query = txtSearch.rx.text.orEmpty.debounce(.milliseconds(300), scheduler: MainScheduler.instance)
-        let output = viewModel.transform(input: UserListViewModel.Input(tabButtonType: tabButtonType, query: query.asObservable(), saveFavorite: saveFavorite.asObservable(), deleteFavorite: deleteFavorite.asObservable(), fetchMore: fetchMore.asObservable()))
+        let output = viewModel.transform(input: UserListViewModel.Input(tabButtonType: tabButtonType, query: query, saveFavorite: saveFavorite.asObservable(), deleteFavorite: deleteFavorite.asObservable(), fetchMore: fetchMore.asObservable()))
         
-        output.cellData.bind(to: tableView.rx.items){ tableView, index, item in
+        output.cellData.bind(to: tableView.rx.items){ tableView, index, cellData in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.id) as? UserTableViewCell else {return UITableViewCell()}
+            cell.apply(cellData: cellData)
+            return cell
             
-            return UITableViewCell()
         }.disposed(by: disposeBag)
         
-        output.error.bind { error in
-            let alert = UIAlertController(title: "에러", message: error, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "확인", style: .default))
-            self.present(alert, animated: true)
+        output.error.bind {[weak self] errorMessage in
+            DispatchQueue.main.async{
+                let alert = UIAlertController(title: "에러", message: errorMessage, preferredStyle: .alert)
+                alert.addAction(.init(title: "확인", style: .default))
+                self?.present(alert, animated: true)
+            }
+
         }.disposed(by: disposeBag)
     }
     
@@ -98,67 +105,3 @@ class UserListViewController: UIViewController {
 }
 
 
-final class TabButtonView : UIStackView {
-    private let tabList : [TabButtonType]
-    private let disposeBag = DisposeBag()
-    public var selectedType : BehaviorRelay<TabButtonType?>
-    
-    init(tabList: [TabButtonType]) {
-        self.tabList = tabList
-        selectedType = BehaviorRelay(value: tabList.first)
-        super.init(frame: .zero)
-        addButton()
-        self.alignment = .fill
-        self.distribution = .fillEqually
-        (arrangedSubviews.first as? UIButton)?.isSelected = true
-    }
-    
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func addButton(){
-        tabList.forEach { tabType in
-            let button = TabButton(tabType: tabType)
-            button.rx.tap.bind { [weak self] in
-                self?.arrangedSubviews.forEach({ view in
-                    (view as? UIButton)?.isSelected = false
-                })
-                button.isSelected = true
-                self?.selectedType.accept(tabType)
-            }.disposed(by: disposeBag)
-            addArrangedSubview(button)
-        }
-    }
-}
-
-final class TabButton : UIButton {
-    var tabType : TabButtonType
-    
-    override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                backgroundColor = .systemCyan
-            } else {
-                backgroundColor = .white
-            }
-        }
-    }
-    init(tabType: TabButtonType) {
-        self.tabType = tabType
-        super.init(frame: .zero)
-        
-        self.setTitle(tabType.rawValue, for: .normal)
-        self.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        
-        self.setTitleColor(.white, for: .selected)
-        self.setTitleColor(.black, for: .normal)
-        
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-}
