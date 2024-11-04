@@ -44,8 +44,21 @@ class UserListViewController: UIViewController {
         self.view.backgroundColor = .white
         
         setUI()
+        bindView()
         bindViewModel()
         
+    }
+    
+    private func bindView() {
+        // prefetchRows : 테이블뷰에 나타난 인덱스
+        // 전체 인덱스 - prefetchRows = 0, -> fetchMore
+        tableView.rx.prefetchRows.bind {[weak self] indexPath in
+            guard let index = indexPath.first?.item, let rows = self?.tableView.numberOfRows(inSection: 0) else {return}
+            print("bindView - indexPath : \(indexPath), row : \(rows)")
+            if index >= rows - 6 {
+                self?.fetchMore.accept(())
+            }
+        }.disposed(by: disposeBag)
     }
     
     private func bindViewModel() {

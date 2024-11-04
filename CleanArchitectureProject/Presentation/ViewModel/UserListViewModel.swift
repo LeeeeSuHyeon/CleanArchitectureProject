@@ -90,8 +90,8 @@ public class UserListViewModel : UserListViewModelProtocol {
             //TODO: 다음 페이지 검색
                 guard let self = self else {return}
                 page += 1
+                print("fetchMore : \(page)")
                 fetchUser(query: query, page: page)
-                
         }.disposed(by: disposeBag)
         
         // 탭이 눌렸을 때, API 리스트를 가져올 건지, 즐겨찾기 유저를 가져올건지 탭이 결정함
@@ -124,6 +124,7 @@ public class UserListViewModel : UserListViewModelProtocol {
     }
     
     private func fetchUser(query : String, page : Int) {
+        print("fetchUser - page : \(page)")
         guard let urlAllowedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {return}
         
         Task{
