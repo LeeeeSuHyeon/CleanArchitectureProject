@@ -32,7 +32,7 @@
     - **XCTest** : 테스트케이스 작성
     - **RxSwift** : 비동기 프로그래밍
     - **RxCocoa** : 비동기 프로그래밍
-    - **SnapKit** : 레이아웃 구현
+    - **SnapKit** : 제약조건 구현
     - **Alamofire** : API 통신
     - **Kingfisher** : 이미지 캐싱
     - **Then** : 컴포넌트 구현
