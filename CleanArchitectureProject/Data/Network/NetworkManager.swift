@@ -21,7 +21,7 @@ public class NetworkManager : NetworkManagerProtocol{
     }
     
     private let tokenHeader : HTTPHeaders = {
-        let tokenHeader = HTTPHeader(name: "Authorization", value: "Bearer <PAT>")
+        let tokenHeader = HTTPHeader(name: "Authorization", value: "Bearer PAT")
         return HTTPHeaders([tokenHeader])
     }()
     

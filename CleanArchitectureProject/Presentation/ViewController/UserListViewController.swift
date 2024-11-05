@@ -54,14 +54,17 @@ class UserListViewController: UIViewController {
         // 전체 인덱스 - prefetchRows = 0, -> fetchMore
 //        tableView.rx.prefetchRows.bind {[weak self] indexPath in
 //            guard let index = indexPath.first?.item, let rows = self?.tableView.numberOfRows(inSection: 0) else {return}
-//            print("bindView - indexPath : \(indexPath), row : \(rows)")
-//            if index >= rows - 5 {
-//                self?.fetchMore.accept(())
+//            if self?.tabButtonView.selectedType.value == .api {
+//                print("bindView - indexPath : \(indexPath), row : \(rows)")
+//                if index >= rows - 5 {
+//                    self?.fetchMore.accept(())
+//                }
 //            }
+//
 //        }.disposed(by: disposeBag)
         
         tableView.rx.willDisplayCell.bind {[weak self] (cell, indexPath) in
-            guard let row = self?.tableView.numberOfRows(inSection: 0) else {return}
+            guard let row = self?.tableView.numberOfRows(inSection: 0), self?.tabButtonView.selectedType.value == .api else {return}
             if indexPath.item >= row - 1 {
                 self?.fetchMore.accept(())
             }
