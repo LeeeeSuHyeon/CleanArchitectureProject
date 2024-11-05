@@ -52,10 +52,17 @@ class UserListViewController: UIViewController {
     private func bindView() {
         // prefetchRows : 테이블뷰에 나타난 인덱스
         // 전체 인덱스 - prefetchRows = 0, -> fetchMore
-        tableView.rx.prefetchRows.bind {[weak self] indexPath in
-            guard let index = indexPath.first?.item, let rows = self?.tableView.numberOfRows(inSection: 0) else {return}
-            print("bindView - indexPath : \(indexPath), row : \(rows)")
-            if index >= rows - 6 {
+//        tableView.rx.prefetchRows.bind {[weak self] indexPath in
+//            guard let index = indexPath.first?.item, let rows = self?.tableView.numberOfRows(inSection: 0) else {return}
+//            print("bindView - indexPath : \(indexPath), row : \(rows)")
+//            if index >= rows - 5 {
+//                self?.fetchMore.accept(())
+//            }
+//        }.disposed(by: disposeBag)
+        
+        tableView.rx.willDisplayCell.bind {[weak self] (cell, indexPath) in
+            guard let row = self?.tableView.numberOfRows(inSection: 0) else {return}
+            if indexPath.item >= row - 1 {
                 self?.fetchMore.accept(())
             }
         }.disposed(by: disposeBag)
@@ -67,6 +74,7 @@ class UserListViewController: UIViewController {
         let output = viewModel.transform(input: UserListViewModel.Input(tabButtonType: tabButtonType, query: query, saveFavorite: saveFavorite.asObservable(), deleteFavorite: deleteFavorite.asObservable(), fetchMore: fetchMore.asObservable()))
         
         output.cellData.bind(to: tableView.rx.items){[weak self] tableView, index, cellData in
+            // ViewModel의 CellData 배열에 담긴 순서대로 출력되는 것
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellData.id) else {return UITableViewCell()}
             (cell as? UserTableViewCellProtocol)?.apply(cellData: cellData)
             

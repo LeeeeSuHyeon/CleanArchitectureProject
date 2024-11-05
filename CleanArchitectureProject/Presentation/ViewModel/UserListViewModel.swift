@@ -207,8 +207,8 @@ public enum UserListCellData {
     
     var id : String {
         switch self {
-        case .user: "UserTableViewCell"
-        case .header: "UserHeaderTableViewCell"
+        case .user:  UserTableViewCell.id
+        case .header: UserHeaderTableViewCell.id
         }
     }
 }
