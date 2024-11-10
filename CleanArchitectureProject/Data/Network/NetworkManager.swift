@@ -21,7 +21,8 @@ public class NetworkManager : NetworkManagerProtocol{
     }
     
     private let tokenHeader : HTTPHeaders = {
-        let tokenHeader = HTTPHeader(name: "Authorization", value: "Bearer PAT")
+        let APIKey = Bundle.main.infoDictionary?["APIKey"] as? String ?? ""
+        let tokenHeader = HTTPHeader(name: "Authorization", value: "Bearer \(APIKey)")
         return HTTPHeaders([tokenHeader])
     }()
     

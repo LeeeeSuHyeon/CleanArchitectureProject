@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB280DE22CE0FB9E0047DCF4 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */; };
 		CB72A0852CCCE57500DA5F4E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB72A0842CCCE57500DA5F4E /* SnapKit */; };
 		CB72A0882CCCE58A00DA5F4E /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = CB72A0872CCCE58A00DA5F4E /* RxCocoa */; };
 		CB72A08A2CCCE58A00DA5F4E /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = CB72A0892CCCE58A00DA5F4E /* RxRelay */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		CB72A0A92CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CleanArchitectureProject.xcdatamodel; sourceTree = "<group>"; };
 		CBD9E0952CCB992B0017DA7B /* CleanArchitectureProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanArchitectureProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD9E0AB2CCB992D0017DA7B /* CleanArchitectureProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleanArchitectureProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +107,7 @@
 		CBD9E08C2CCB992B0017DA7B = {
 			isa = PBXGroup;
 			children = (
+				CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */,
 				CB72A0A82CCE1E9500DA5F4E /* CleanArchitectureProject.xcdatamodeld */,
 				CBD9E0972CCB992B0017DA7B /* CleanArchitectureProject */,
 				CBD9E0AE2CCB992D0017DA7B /* CleanArchitectureProjectTests */,
@@ -256,6 +259,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB280DE22CE0FB9E0047DCF4 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +320,7 @@
 /* Begin XCBuildConfiguration section */
 		CBD9E0BF2CCB992D0017DA7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -343,6 +348,7 @@
 		};
 		CBD9E0C02CCB992D0017DA7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -370,6 +376,7 @@
 		};
 		CBD9E0C12CCB992D0017DA7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -433,6 +440,7 @@
 		};
 		CBD9E0C22CCB992D0017DA7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -489,6 +497,7 @@
 		};
 		CBD9E0C42CCB992D0017DA7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -508,6 +517,7 @@
 		};
 		CBD9E0C52CCB992D0017DA7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -527,6 +537,7 @@
 		};
 		CBD9E0C72CCB992D0017DA7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -544,6 +555,7 @@
 		};
 		CBD9E0C82CCB992D0017DA7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB280DE12CE0FB9E0047DCF4 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
